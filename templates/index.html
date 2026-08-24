@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>OLDman - Home</title>
+    <link
+      rel="stylesheet"
+      href="{{url_for('static' , filename='css/style.css')}}"
+    />
+  </head>
+  <body>
+    <div class="welcome-container">
+      <div class="logo-wrapper">
+        <img
+          src="{{ url_for('static', filename='images/OLDMAN_LOGO.svg') }}"
+          alt="OLDMAN_LOGO"
+          class="logo"
+        />
+      </div>
+      <h1>OLDman</h1>
+      <p>The ultimate audio & video universe .</p>
+      <div class="spinner"></div>
+      <!-- <p style="color: #1db954; font-weight: bold">{{ db_status }}</p> -->
+    </div>
+  </body>
+</html>
