@@ -142,3 +142,36 @@ p {
 .btn-primary:hover {
   opacity: 0.9;
 }
+
+/* Extra styles specific to interest pills */
+.interests-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+  margin: 20px 0;
+}
+.interest-pill {
+  display: inline-block;
+  position: relative;
+}
+.interest-pill input[type="checkbox"] {
+  display: none;
+}
+.interest-pill label {
+  display: block;
+  padding: 10px 16px;
+  background-color: var(--bg-primary);
+  border: 1px solid #333;
+  border-radius: 20px;
+  color: var(--text-muted);
+  font-size: 13px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.interest-pill input[type="checkbox"]:checked + label {
+  background-color: var(--brand-crimson);
+  color: var(--text-main);
+  border-color: var(--accent-color, #1db954);
+  font-weight: bold;
+}

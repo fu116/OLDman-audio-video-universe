@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>OLDman - Select Interests</title>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/style.css') }}"
+    />
+  </head>
+  <body>
+    <div class="welcome-container" style="max-width: 440px">
+      <div class="logo-wrapper">
+        <img
+          src="{{ url_for('static', filename='images/OLDMAN_LOGO.svg') }}"
+          alt="OLDman Logo"
+          class="logo"
+        />
+      </div>
+
+      <h1>Select Your Interests</h1>
+      <p>
+        Pick what you love to watch or listen to so we can tailor your feed.
+      </p>
+
+      <!-- Flash Messages -->
+      {% with messages = get_flashed_messages(with_categories=true) %} {% if
+      messages %}
+      <div class="flash-messages">
+        {% for category, message in messages %}
+        <div class="flash {{ category }}">{{ message }}</div>
+        {% endfor %}
+      </div>
+      {% endif %} {% endwith %}
+
+      <form action="{{ url_for('interests') }}" method="POST">
+        <div class="interests-grid">
+          {% for item in interests %}
+          <div class="interest-pill">
+            <input
+              type="checkbox"
+              id="interest-{{ loop.index }}"
+              name="interests"
+              value="{{ item }}"
+            />
+            <label for="interest-{{ loop.index }}">{{ item }}</label>
+          </div>
+          {% endfor %}
+        </div>
+
+        <button
+          type="submit"
+          class="btn-primary"
+          style="width: 100%; padding: 12px; border-radius: 8px"
+        >
+          Save Interests
+        </button>
+      </form>
+    </div>
+  </body>
+</html>

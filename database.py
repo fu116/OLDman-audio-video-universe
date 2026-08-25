@@ -25,8 +25,7 @@ def create_user(username, email, hashed_password):
         return "Database connection faild."
     cursor=connection.cursor()
     try:
-        query="INSERT INTO users(username, email,password_hash) VALUES(%s,%s, %s)"
-        cursor.execute(query, (username,email,hashed_password))
+        cursor.execute("INSERT INTO users(username, email,password_hash) VALUES(%s,%s, %s)", (username,email,hashed_password))
         connection.commit()
         connection.commit()
 
@@ -39,6 +38,47 @@ def create_user(username, email, hashed_password):
           cursor.close()
           connection.close()
 
+def get_user_by_username(username):
+    connection=get_db_connection()
+    if not connection:
+        return None
+    try:
+        cursor=connection.cursor(dictionary=True)
+        print(f"DEBUG DB: Searching for username exact value -> [{username}]")
+        cursor.execute("SELECT username FROM users")
+        print("DEBUG DB: All usernames currently in MySQL:", cursor.fetchall())
 
 
-    
+        cursor.execute("SELECT * FROM users WHERE username = %s",(username,)) 
+        user=cursor.fetchone()
+        return user
+    except Exception as e:
+        print("DATABASE ERROR:", e)
+        return None
+    finally:
+        if connection.is_connected():
+            cursor.close()
+            connection.close()
+
+def save_user_interests(username,interests):
+    connection=get_db_connection()
+    if not connection:
+       return False
+    try:
+        cursor=connection.cursor()
+        cursor.execute("DELETE FROM user_interests WHERE username = %s", (username,))
+        for interest in interests:
+            cursor.execute("INSERT INTO user_interests(username,interest) VALUES (%s, %s)", (username, interest))
+        connection.commit()
+        return True
+    except Exception as e:
+          print("DATABASE ERORR:", e)
+          return False 
+    finally:
+        if connection.is_connected():
+            cursor.close()
+            connection.close()
+
+            
+
+
