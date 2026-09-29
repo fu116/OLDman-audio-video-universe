@@ -3,14 +3,23 @@ from mysql.connector import Error
 
 def get_db_connection():
     try:
-
+       
+        connection = mysql.connector.connect(
+            host='localhost',
+            database='oldman_db',
+            user='root',                  
+            password='123@@@###fuad' 
+        )
+        
+        # 2. Check if it's connected
         if connection.is_connected():
-            print("Sucessfully connected to Mysql database")
+            print("Successfully connected to MySQL database")
             return connection
-    except Error as e :
-        print(f"Error while connecting to Mysql: {e}")    
-        return None 
 
+            
+    except Error as e:
+        print(f"Error while connecting to MySQL: {e}")
+        return None
 def create_user(username, email, hashed_password):
     """Takes user details and inserts a new row into the users table.
     Returns True if successful, or an error message string if it fails.

@@ -29,6 +29,22 @@ def home():
     }
     return render_template("index.html", **kwargs)
 
+@app.route("/media_player", methods=["GET"])
+def media_player_page():
+    return render_template("media_player.html")
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 # Route to show the registration page
 @app.route("/register", methods=["GET"])

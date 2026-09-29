@@ -1,0 +1,158 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>OLDman - Media player</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="{{url_for('static' , filename='css/style.css')}}"
+    />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/figmaone_icons.css') }}"
+    />
+  </head>
+  <body>
+    <section class="Media_player_section">
+      <button><i class="fa-solid fa-bars"></i></button>
+      <div class="audio_video_player_section">
+        <div class="header_btns_for_media_section">
+          <button class="Drop_down_btn">
+            <i class="icon-down_arrow"></i>
+          </button>
+          <!-- <p>Lorem ipsum dolor sit amet.</p> -->
+        </div>
+
+        <div class="player">
+          <video src=""></video>
+          <img src="" alt="" />
+
+          <div class="set_full_btn">
+            <button class="settings-btn">
+              <i class="icon-Setting-1"></i>
+            </button>
+
+            <button class="fullscreen-btn">
+              <i class="fa-solid fa-expand"></i>
+            </button>
+          </div>
+
+          <div class="sound_time">
+            <button class="volume-btn">
+              <i class="fa-solid fa-volume-high"></i>
+            </button>
+
+            <time datetime="">3:25</time>
+          </div>
+        </div>
+        <div class="user_btns">
+          <button class="share_media_btn">
+            <i class="fa-solid fa-share"></i>
+          </button>
+          <div class="Progress_bar"></div>
+          <button class="Like_media_btn">
+            <i class="fa-solid fa-heart"></i>
+          </button>
+        </div>
+        <div class="Media_btns">
+          <button class="Forward"><i class="icon-Forward"></i></button>
+          <button class="play_pause">
+            <i class="icon-Play-btn-1"></i>
+          </button>
+          <button class="Backward">
+            <i class="icon-Backward"></i>
+          </button>
+        </div>
+      </div>
+      <div class="second_section_of_media">
+        <!-- card-1 -->
+
+        <div class="to_be_played_media_card">
+          <div class="to_be_played_media">
+            <img src="" alt="" />
+            <button class="Nota"><i class="fa-solid fa-music"></i></button>
+            <time>3:25</time>
+          </div>
+          <div class="text">
+            <p>Lorem ipsum dolor sit amet.</p>
+          </div>
+        </div>
+
+        <!-- card-2 -->
+        <div class="to_be_played_media_card">
+          <div class="to_be_played_media">
+            <!-- <img src="" alt="" /> -->
+            <img
+              src="{{ url_for('static', filename='images/caset_image.jpg') }}"
+              alt=""
+            />
+            <button class="Nota"><i class="fa-solid fa-music"></i></button>
+            <time>3:25</time>
+          </div>
+          <div class="text">
+            <p>Lorem ipsum dolor sit amet.</p>
+          </div>
+        </div>
+
+        <!-- card 1 -->
+        <div class="to_be_played_media_card">
+          <div class="to_be_played_media">
+            <img src="" alt="" />
+            <button class="Nota"><i class="fa-solid fa-music"></i></button>
+            <time>3:25</time>
+          </div>
+          <div class="text">
+            <p>Lorem ipsum dolor sit amet.</p>
+          </div>
+        </div>
+        <!-- card 1 -->
+        <div class="to_be_played_media_card">
+          <div class="to_be_played_media">
+            <img
+              src="{{ url_for('static', filename='images/caset_image.jpg') }}"
+              alt=""
+            />
+            <button class="Nota"><i class="fa-solid fa-music"></i></button>
+            <time>3:25</time>
+          </div>
+          <div class="text">
+            <p>Lorem ipsum dolor sit amet.</p>
+          </div>
+        </div>
+        <!-- card 1 -->
+        <div class="to_be_played_media_card">
+          <div class="to_be_played_media">
+            <img src="" alt="" />
+            <button class="Nota"><i class="fa-solid fa-music"></i></button>
+            <time>3:25</time>
+          </div>
+          <div class="text">
+            <p>Lorem ipsum dolor sit amet.</p>
+          </div>
+        </div>
+
+        <!-- card 1 -->
+        <div class="to_be_played_media_card">
+          <div class="to_be_played_media">
+            <img src="" alt="" />
+            <button class="Nota"><i class="fa-solid fa-music"></i></button>
+            <time>3:25</time>
+          </div>
+          <div class="text">
+            <p>Lorem ipsum dolor sit amet.</p>
+          </div>
+        </div>
+      </div>
+      <div class="playing_media_while_searching">
+        <button class="while_searching_play_pause_btn">▶</button>
+        <button class="while_searching_close_btn"></button>
+        <time datetime="">3:25</time>
+      </div>
+    </section>
+  </body>
+</html>
