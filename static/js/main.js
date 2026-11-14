@@ -123,6 +123,26 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
+  const updatePlayPauseIcon = () => {
+    const activeMedia = getActiveMedia();
+
+    if (!activeMedia || !playPauseIcon) return;
+
+    if (activeMedia.paused) {
+      playPauseIcon.className = "icon-Play-btn-1";
+    } else {
+      playPauseIcon.className = "fa-solid fa-pause";
+    }
+  };
+
+  const activeMedia = getActiveMedia();
+
+  if (activeMedia) {
+    activeMedia.addEventListener("play", updatePlayPauseIcon);
+    activeMedia.addEventListener("pause", updatePlayPauseIcon);
+    activeMedia.addEventListener("ended", updatePlayPauseIcon);
+  }
+
   // Skip Forward / Backward Logic (10 seconds)
   if (forwardBtn) {
     forwardBtn.addEventListener("click", () => {
@@ -302,4 +322,16 @@ document.addEventListener("DOMContentLoaded", () => {
 
   if (expandBtn) expandBtn.addEventListener("click", restoreFullPlayer);
   if (closeMiniBtn) closeMiniBtn.addEventListener("click", restoreFullPlayer);
+});
+
+const mediaCards = document.querySelectorAll(".to_be_played_media");
+mediaCards.forEach((card) => {
+  card.addEventListener("click", () => {
+    const selectedVideo = card.dataset.video;
+    const playerVideo = document.querySelector(".player-video");
+
+    playerVideo.src = selectedVideo;
+    playerVideo.play();
+    console.log("Selected video:", selectedVideo);
+  });
 });

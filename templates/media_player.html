@@ -3,14 +3,16 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>OLDman - Media player</title>
+    <title>
+      OLDman - {{ current_video.title if current_video else 'Media Player' }}
+    </title>
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
     />
     <link
       rel="stylesheet"
-      href="{{url_for('static' , filename='css/style.css')}}"
+      href="{{ url_for('static', filename='css/style.css') }}"
     />
     <link
       rel="stylesheet"
@@ -18,6 +20,7 @@
     />
   </head>
   <body>
+    <!-- Side Navbar -->
     <nav class="side-navbar">
       <div class="nav-header">
         <h3>Media Hub</h3>
@@ -28,55 +31,65 @@
 
       <ul class="nav-links">
         <li>
-          <a href="#" class="active"
-            ><i class="fa-solid fa-house"></i> Discover Feed</a
-          >
+          <a href="{{ url_for('content.feed') }}" class="active">
+            <i class="fa-solid fa-house"></i> Discover Feed
+          </a>
         </li>
         <li>
-          <a href="#"><i class="fa-solid fa-microphone"></i> Audio Tracks</a>
+          <a href="{{ url_for('content.upload') }}">
+            <i class="fa-solid fa-cloud-arrow-up"></i> Upload Media
+          </a>
         </li>
         <li>
-          <a href="#"><i class="fa-solid fa-video"></i> Long Videos</a>
-        </li>
-        <li>
-          <a href="#"><i class="fa-solid fa-clapperboard"></i> Short Clips</a>
+          <a href="{{ url_for('content.my_profile') }}">
+            <i class="fa-solid fa-user"></i> Profile
+          </a>
         </li>
         <li><hr class="nav-divider" /></li>
         <li>
-          <a href="#"><i class="fa-solid fa-heart"></i> Favorites</a>
-        </li>
-        <li>
-          <a href="#"><i class="fa-solid fa-download"></i> Downloads</a>
-        </li>
-        <li>
-          <a href="#"><i class="fa-solid fa-user"></i> Profile</a>
-        </li>
-        <li>
-          <a href="#"><i class="fa-solid fa-gear"></i> Settings</a>
+          <a href="{{ url_for('auth.logout') }}">
+            <i class="fa-solid fa-right-from-bracket"></i> Logout
+          </a>
         </li>
       </ul>
     </nav>
+
     <div class="nav-overlay"></div>
     <button class="menu-toggle-btn"><i class="fa-solid fa-bars"></i></button>
+
     <section class="Media_player_section">
       <div class="audio_video_player_section">
         <div class="header_btns_for_media_section">
-          <button class="Drop_down_btn">
+          <a
+            href="{{ url_for('content.feed') }}"
+            class="Drop_down_btn"
+            title="Back to Feed"
+          >
             <i class="icon-down_arrow"></i>
-          </button>
-          <!-- <p>Lorem ipsum dolor sit amet.</p> -->
+          </a>
         </div>
 
         <div class="player">
-          <!-- Media Elements -->
+          <!-- Active Video Player -->
+          {% if current_video %}
+          <video
+            class="player-video"
+            src="{{ url_for('static', filename='uploads/media/' ~ current_video.video_url) }}"
+            controls
+            style="display: block; width: 100%; max-height: 500px"
+          ></video>
+          {% else %}
           <video
             class="player-video"
             src="https://www.w3schools.com/html/mov_bbb.mp4"
-            style="display: block"
+            controls
+            style="display: block; width: 100%; max-height: 500px"
           ></video>
+          {% endif %}
+
           <audio class="player-audio" src="" preload="auto"></audio>
 
-          <div class="media-poster">
+          <div class="media-poster" style="display: none">
             <i class="fa-solid fa-music"></i>
           </div>
 
@@ -90,7 +103,7 @@
             </button>
           </div>
 
-          <!-- Mini Controls / Volume & Time (ONLY volume and time here, no duplicate bars) -->
+          <!-- Mini Controls / Volume & Time -->
           <div class="sound_time">
             <button class="volume-btn" title="Mute/Unmute">
               <i class="fa-solid fa-volume-high"></i>
@@ -112,7 +125,7 @@
         </div>
 
         <div class="user_btns">
-          <button class="share_media_btn">
+          <button class="share_media_btn" title="Share">
             <i class="fa-solid fa-share"></i>
           </button>
           <input
@@ -123,10 +136,11 @@
             step="0.1"
             value="0"
           />
-          <button class="Like_media_btn">
+          <button class="Like_media_btn" title="Like">
             <i class="fa-solid fa-heart"></i>
           </button>
         </div>
+
         <div class="Media_btns">
           <button class="Backward" title="Skip Backward">
             <i class="icon-Backward"></i>
@@ -140,7 +154,7 @@
         </div>
       </div>
 
-      <!-- Search bar container (hidden by default) -->
+      <!-- Search bar container -->
       <div class="search_container">
         <div class="search_bar">
           <i class="fa-solid fa-magnifying-glass"></i>
@@ -152,147 +166,65 @@
         </div>
       </div>
 
+      <!-- Queue / Up Next Playlist Grid -->
       <div class="second_section_of_media">
-        <!-- card-1 -->
+        {% for video in videos %}
+        <div class="to_be_played_media_card">
+          <a
+            href="{{ url_for('content.play_video', video_id=video.id) }}"
+            style="
+              text-decoration: none;
+              color: inherit;
+              display: flex;
+              width: 100%;
+            "
+          >
+            <div class="to_be_played_media" data-video="{{ video.video_url }}">
+              {% if video.thumbnail_url %}
+              <img
+                src="{{ url_for('static', filename='uploads/thumbnails/' ~ video.thumbnail_url) }}"
+                alt="{{ video.title }}"
+              />
+              {% else %}
+              <button class="Nota"><i class="fa-solid fa-music"></i></button>
+              {% endif %}
+            </div>
+            <div class="text">
+              <small>@{{ video.username }}</small>
+              <p>{{ video.title }}</p>
+            </div>
+          </a>
 
-        <div class="to_be_played_media_card">
-          <div class="to_be_played_media">
-            <img src="" alt="" />
-            <button class="Nota"><i class="fa-solid fa-music"></i></button>
-            <time>3:25</time>
-          </div>
-          <div class="text">
-            <p>Lorem ipsum dolor sit amet.</p>
-          </div>
+          <!-- Delete option if logged-in user owns this video -->
+          {% if session.get('username') == video.username %}
+          <form
+            action="{{ url_for('content.delete_video', video_id=video.id) }}"
+            method="POST"
+            onsubmit="return confirm('Delete this video?');"
+            style="margin-left: auto"
+          >
+            <button
+              type="submit"
+              class="btn-delete"
+              title="Delete Video"
+              style="
+                background: none;
+                border: none;
+                color: #ff4d4d;
+                cursor: pointer;
+                padding: 5px;
+              "
+            >
+              <i class="fa-solid fa-trash"></i>
+            </button>
+          </form>
+          {% endif %}
         </div>
-
-        <!-- card-2 -->
-        <div class="to_be_played_media_card">
-          <div class="to_be_played_media">
-            <!-- <img src="" alt="" /> -->
-            <img
-              src="{{ url_for('static', filename='images/caset_image.jpg') }}"
-              alt=""
-            />
-            <button class="Nota"><i class="fa-solid fa-music"></i></button>
-            <time>3:25</time>
-          </div>
-          <div class="text">
-            <p>Lorem ipsum dolor sit amet.</p>
-          </div>
-        </div>
-
-        <!-- card 1 -->
-        <div class="to_be_played_media_card">
-          <div class="to_be_played_media">
-            <img src="" alt="" />
-            <button class="Nota"><i class="fa-solid fa-music"></i></button>
-            <time>3:25</time>
-          </div>
-          <div class="text">
-            <p>Lorem ipsum dolor sit amet.</p>
-          </div>
-        </div>
-        <!-- card 1 -->
-        <div class="to_be_played_media_card">
-          <div class="to_be_played_media">
-            <img
-              src="{{ url_for('static', filename='images/caset_image.jpg') }}"
-              alt=""
-            />
-            <button class="Nota"><i class="fa-solid fa-music"></i></button>
-            <time>3:25</time>
-          </div>
-          <div class="text">
-            <p>Lorem ipsum dolor sit amet.</p>
-          </div>
-        </div>
-        <!-- card 1 -->
-        <div class="to_be_played_media_card">
-          <div class="to_be_played_media">
-            <img src="" alt="" />
-            <button class="Nota"><i class="fa-solid fa-music"></i></button>
-            <time>3:25</time>
-          </div>
-          <div class="text">
-            <p>Lorem ipsum dolor sit amet.</p>
-          </div>
-        </div>
-
-        <!-- card 1 -->
-        <div class="to_be_played_media_card">
-          <div class="to_be_played_media">
-            <img src="" alt="" />
-            <button class="Nota"><i class="fa-solid fa-music"></i></button>
-            <time>3:25</time>
-          </div>
-          <div class="text">
-            <p>Lorem ipsum dolor sit amet.</p>
-          </div>
-        </div>
-        <div class="to_be_played_media_card">
-          <div class="to_be_played_media">
-            <img src="" alt="" />
-            <button class="Nota"><i class="fa-solid fa-music"></i></button>
-            <time>3:25</time>
-          </div>
-          <div class="text">
-            <p>Lorem ipsum dolor sit amet.</p>
-          </div>
-        </div>
-        <div class="to_be_played_media_card">
-          <div class="to_be_played_media">
-            <img src="" alt="" />
-            <button class="Nota"><i class="fa-solid fa-music"></i></button>
-            <time>3:25</time>
-          </div>
-          <div class="text">
-            <p>Lorem ipsum dolor sit amet.</p>
-          </div>
-        </div>
-        <div class="to_be_played_media_card">
-          <div class="to_be_played_media">
-            <img src="" alt="" />
-            <button class="Nota"><i class="fa-solid fa-music"></i></button>
-            <time>3:25</time>
-          </div>
-          <div class="text">
-            <p>Lorem ipsum dolor sit amet.</p>
-          </div>
-        </div>
-        <div class="to_be_played_media_card">
-          <div class="to_be_played_media">
-            <img src="" alt="" />
-            <button class="Nota"><i class="fa-solid fa-music"></i></button>
-            <time>3:25</time>
-          </div>
-          <div class="text">
-            <p>Lorem ipsum dolor sit amet.</p>
-          </div>
-        </div>
-        <div class="to_be_played_media_card">
-          <div class="to_be_played_media">
-            <img src="" alt="" />
-            <button class="Nota"><i class="fa-solid fa-music"></i></button>
-            <time>3:25</time>
-          </div>
-          <div class="text">
-            <p>Lorem ipsum dolor sit amet.</p>
-          </div>
-        </div>
-        <div class="to_be_played_media_card">
-          <div class="to_be_played_media">
-            <img src="" alt="" />
-            <button class="Nota"><i class="fa-solid fa-music"></i></button>
-            <time>3:25</time>
-          </div>
-          <div class="text">
-            <p>Lorem ipsum dolor sit amet.</p>
-          </div>
-        </div>
+        {% endfor %}
       </div>
+
+      <!-- Mini Player Overlay -->
       <div class="playing_media_while_searching">
-        <!-- Top Center: Close/Collapse button -->
         <button
           class="while_searching_play_close_btn"
           title="Close Mini Player"
@@ -300,19 +232,17 @@
           <i class="fa-solid fa-chevron-up"></i>
         </button>
 
-        <!-- Audio / Video Element & Track Info -->
         <div class="mini_media_container">
           <video
             src="https://www.w3schools.com/html/mov_bbb.mp4"
             style="display: block"
           ></video>
           <audio id="mini-audio-player" src="" preload="auto"></audio>
-          <!-- If you are using video instead, you can include this: -->
-          <!-- <video id="mini-video-player" src="" preload="auto"></video> -->
-          <span class="mini_player_title">Faucibus dictum odio.</span>
+          <span class="mini_player_title"
+            >{{ current_video.title if current_video else 'Now Playing' }}</span
+          >
         </div>
 
-        <!-- Bottom Row: Expand Button & Time Counter -->
         <div class="mini_player_bottom_row">
           <button class="mini_expand_btn" title="Expand Player">
             <i class="fa-solid fa-expand"></i>
@@ -321,6 +251,7 @@
         </div>
       </div>
     </section>
+
     <script src="{{ url_for('static', filename='js/main.js') }}"></script>
   </body>
 </html>

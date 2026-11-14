@@ -3,160 +3,161 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>{{ profile.full_name }} (@{{ profile.username }}) - OLDman</title>
+    <title>OLDman - {{ user.name or user.username }}'s Profile</title>
     <link
       rel="stylesheet"
-      href="{{ url_for('static', filename='css/style.css') }}"
+      href="{{ url_for('static', filename='css/profile.css') }}"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
     />
   </head>
   <body>
-    <div class="welcome-container profile-container">
-      <!-- Optional Cover Image -->
-      {% if profile.cover_pic %}
+    <div class="welcome-container profile-container" style="margin-top: 40px">
+      <!-- Cover Image -->
+      {% if user.cover_pic %}
       <img
-        src="{{ url_for('static', filename='images/' + profile.cover_pic) }}"
+        src="{{ url_for('static', filename='uploads/profiles/' + profile.cover_pic) }}"
+        alt="Cover"
+        class="profile-cover"
+      />
+      {% else %}
+      <img
+        src="{{ url_for('static', filename='images/logo_without_bg.svg') }}"
         alt="Cover"
         class="profile-cover"
       />
       {% endif %}
 
-      <!-- Profile Header -->
-      <div
-        class="profile-header"
-        style="margin-top: {% if profile.cover_pic %}15px{% else %}0{% endif %};"
-      >
+      <!-- Profile Header (Avatar, Name, Username, Actions) -->
+      <div class="profile-header">
+        {% if profile.profile_pic %}
         <img
-          src="{{ url_for('static', filename='images/' + profile.profile_pic) }}"
+          src="{{ url_for('static', filename='uploads/profiles/' + profile.profile_pic) }}"
           alt="Avatar"
           class="profile-avatar"
         />
-        <div>
-          <h2
-            style="
-              display: flex;
-              align-items: center;
-              gap: 4px;
-              font-size: 18px;
-              margin: 0;
-            "
-          >
-            {{ profile.full_name }} {% if profile.is_verified %}
+        {% else %}
+        <img
+          src="{{ url_for('static', filename='images/logo_without_bg.svg') }}"
+          alt="Avatar"
+          class="profile-avatar"
+        />
+        {% endif %}
+
+        <div class="profile-identity">
+          <h2 class="profile-name">
+            {{ profile.full_name if profile.full_name else profile.username }}
+            {% if profile.is_verified %}
             <span class="verified-badge" title="Verified Creator">✔</span>
             {% endif %}
           </h2>
-          <p
-            style="color: var(--text-muted); font-size: 13px; margin: 2px 0 0 0"
+          <p class="profile-username">@{{ profile.username }}</p>
+        </div>
+
+        <!-- Top Action (Edit Profile if own, Message if other) -->
+        <div class="profile-top-action">
+          {% if is_own_profile %}
+          <a
+            href="{{ url_for('content.edit_profile') }}"
+            class="btn-primary"
+            style="
+              padding: 6px 14px;
+              font-size: 13px;
+              text-decoration: none;
+              border-radius: 6px;
+            "
           >
-            @{{ profile.username }}
-          </p>
+            Edit Profile
+          </a>
+          {% else %}
+          <a href="#" class="message-icon-btn" title="Message">
+            <i class="fa-solid fa-comment"></i>
+          </a>
+          {% endif %}
         </div>
       </div>
 
-      <!-- Bio -->
-      <p style="font-size: 13px; margin: 10px 0; line-height: 1.4; color: #ddd">
-        {{ profile.bio }}
-      </p>
+      <!-- Bio Box Container -->
+      <div class="bio-box">
+        <p class="bio-text">
+          {{ profile.bio if profile.bio else "No bio added yet." }}
+        </p>
+      </div>
 
-      <!-- Stats Row -->
+      <!-- Stats Row (Followers / Following / Posts) -->
       <div class="profile-stats">
         <div class="stat-item">
-          <span class="stat-value">{{ stats.content_count }}</span>
-          <span class="stat-label">Videos</span>
-        </div>
-        <div class="stat-item">
-          <span class="stat-value">{{ stats.followers_count }}</span>
           <span class="stat-label">Followers</span>
+          <span class="stat-value">{{ stats.followers_count }}</span>
         </div>
+        <div class="stat-divider"></div>
         <div class="stat-item">
-          <span class="stat-value">{{ stats.following_count }}</span>
           <span class="stat-label">Following</span>
+          <span class="stat-value">{{ stats.following_count }}</span>
         </div>
-      </div>
-
-      <!-- Action Buttons -->
-      <div class="profile-actions">
-        {% if is_own_profile %}
-        <a
-          href="{{ url_for('dashboard') }}"
-          class="btn-primary"
-          style="
-            flex: 1;
-            text-align: center;
-            text-decoration: none;
-            padding: 10px;
-            font-size: 13px;
-            border-radius: 12px;
-            display: block;
-          "
-          >Creator Studio</a
-        >
-        <a
-          href="{{ url_for('edit_profile') }}"
-          class="btn-secondary"
-          style="flex: 1; padding: 10px; font-size: 13px"
-          >Edit Profile</a
-        >
-        {% else %}
-        <button
-          class="btn-primary"
-          style="
-            flex: 1;
-            padding: 10px;
-            font-size: 13px;
-            border-radius: 12px;
-            border: none;
-            cursor: pointer;
-          "
-        >
-          Follow
-        </button>
-        <button
-          class="btn-secondary"
-          style="flex: 1; padding: 10px; font-size: 13px"
-        >
-          Message
-        </button>
-        {% endif %}
+        <div class="stat-divider"></div>
+        <div class="stat-item">
+          <span class="stat-label">Posts</span>
+          <span class="stat-value">{{ stats.content_count }}</span>
+        </div>
       </div>
 
       <!-- Content Tabs -->
       <div class="profile-tabs">
         <button class="tab-btn active">Videos</button>
         <button class="tab-btn">Shorts</button>
-        <button class="tab-btn">Music</button>
+        <button class="tab-btn">Audios</button>
       </div>
 
       <!-- Videos Grid -->
       {% if videos %}
       <div class="video-grid">
         {% for video in videos %}
-        <div class="video-card">
-          <div class="video-thumb"></div>
+        <a
+          href="{{ url_for('content.play_video', video_id=video.id) }}"
+          class="video-card"
+          style="text-decoration: none; color: inherit"
+        >
+          <div class="video-thumb">
+            {% if video.thumbnail_url %}
+            <img
+              src="{{ url_for('static', filename='uploads/thumbnails/' + video.thumbnail_url) }}"
+              alt="{{ video.title }}"
+            />
+            {% else %}
+            <div
+              style="
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                height: 100%;
+                background: rgba(255, 255, 255, 0.05);
+              "
+            >
+              <i class="fa-solid fa-play" style="font-size: 24px"></i>
+            </div>
+            {% endif %}
+          </div>
           <div class="video-info">
             <h4 class="video-title">{{ video.title }}</h4>
             <span class="video-meta"
               >{{ video.views_count }} views • {{ video.category }}</span
             >
           </div>
-        </div>
+        </a>
         {% endfor %}
       </div>
       {% else %}
       <div
-        style="text-align: center; padding: 25px 0; color: var(--text-muted)"
+        style="
+          text-align: center;
+          padding: 40px;
+          color: rgba(255, 255, 255, 0.6);
+        "
       >
-        <p style="font-size: 12px">No content uploaded yet.</p>
-        {% if is_own_profile %}
-        <a
-          href="{{ url_for('dashboard') }}"
-          style="
-            color: var(--accent-color);
-            font-size: 11px;
-            text-decoration: none;
-          "
-          >Go to Studio to upload &rarr;</a
-        >
-        {% endif %}
+        <p>No content uploaded yet.</p>
       </div>
       {% endif %}
     </div>

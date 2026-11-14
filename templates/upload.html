@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>OLDman - Upload Media</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/style.css') }}"
+    />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/upload.css') }}"
+    />
+  </head>
+  <body>
+    <div class="upload-container">
+      <!-- Options button -->
+      <button class="options-menu-btn" title="Options">
+        <i class="fa-solid fa-ellipsis-vertical"></i>
+      </button>
+
+      <!-- Flash Messages -->
+      {% with messages = get_flashed_messages(with_categories=true) %} {% if
+      messages %}
+      <div class="flash-messages" style="margin-bottom: 15px">
+        {% for category, message in messages %}
+        <p
+          class="status_text"
+          style="color: {% if category == 'error' %}#ff4d4d{% else %}#4bb543{% endif %}; font-size: 14px; text-align: center; font-weight: 500;"
+        >
+          {{ message }}
+        </p>
+        {% endfor %}
+      </div>
+      {% endif %} {% endwith %}
+
+      <!-- Fixed Blueprint route -->
+      <form
+        action="{{ url_for('content.upload') }}"
+        method="POST"
+        enctype="multipart/form-data"
+      >
+        <!-- Thumbnail Upload Box -->
+        <div class="thumbnail-box">
+          <input
+            type="file"
+            name="thumbnail"
+            id="thumb-file"
+            accept="image/*"
+            hidden
+          />
+          <label for="thumb-file" class="thumbnail-label">
+            <span class="plus-sign">+</span>
+            <span class="thumb-text">ADD THUMBNAIL</span>
+          </label>
+        </div>
+
+        <!-- Media File Selector (Audio/Video) -->
+        <div class="media-file-box">
+          <input
+            type="file"
+            name="media_file"
+            id="media-file-input"
+            accept="audio/*,video/*"
+            hidden
+            required
+          />
+          <label for="media-file-input" class="media-file-label">
+            <i class="fa-solid fa-cloud-arrow-up"></i>
+            <span>Select Audio or Video File</span>
+          </label>
+        </div>
+
+        <!-- Main Content Area (Inputs + Visibility) -->
+        <div class="upload-content-grid">
+          <!-- Left Side: Inputs -->
+          <div class="upload-inputs-group">
+            <input
+              type="text"
+              name="title"
+              placeholder="Audio/Video Title"
+              class="custom-input"
+              required
+            />
+            <textarea
+              name="description"
+              placeholder="Add Description"
+              class="custom-input custom-textarea"
+              rows="3"
+            ></textarea>
+          </div>
+
+          <!-- Right Side: Visibility Section -->
+          <div class="visibility-group">
+            <span class="visiblity-label-title">Visibility</span>
+
+            <div class="visibility-buttons">
+              <label class="vis-pill">
+                <input type="radio" name="visibility" value="private" />
+                <span>Private</span>
+              </label>
+
+              <label class="vis-pill">
+                <input type="radio" name="visibility" value="public" checked />
+                <span>Public</span>
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <!-- POST Button -->
+        <button type="submit" class="post-btn">POST</button>
+      </form>
+
+      <!-- Bottom Progress Line -->
+      <div class="upload-progress-line"></div>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+  </body>
+</html>

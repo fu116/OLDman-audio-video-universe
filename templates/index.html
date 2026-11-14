@@ -13,28 +13,27 @@
       rel="stylesheet"
       href="{{ url_for('static', filename='css/style.css') }}"
     />
-    <link
-      rel="stylesheet"
-      href="{{ url_for('static', filename='css/style.css') }}"
-    />
   </head>
 
   <body>
     {% include 'components/nav.html' %}
     <section class="welcome-section">
       <div class="corner_buttons">
-        <button class="create_account">
-          Tune In <i class="fa-solid fa-headphones"></i>
-        </button>
-        <button class="Login_account">
-          play <i class="fa-solid fa-headphones"></i>
-        </button>
+        <a
+          href="{{ url_for('auth.register') }}"
+          class="create_account btn-link"
+        >
+          Sign up <i class="fa-solid fa-headphones"></i>
+        </a>
+        <a href="{{ url_for('auth.login') }}" class="Login_account btn-link">
+          Login <i class="fa-solid fa-headphones"></i>
+        </a>
       </div>
 
       <div class="welcome-container">
         <div class="logo-wrapper">
           <img
-            src="/static/images/logo_without_bg.svg"
+            src="{{ url_for('static', filename='images/logo_without_bg.svg') }}"
             alt="OLDMAN_LOGO"
             class="hero-logo"
           />
@@ -43,11 +42,12 @@
         <h1>OLDman</h1>
         <p>The ultimate audio & video universe.</p>
         <div class="spinner"></div>
-        <button class="create-btn">
+
+        <a href="{{ url_for('content.feed') }}" class="create-btn btn-link">
           <i class="fa-solid fa-headphones"></i>
           Explore OLDman
           <i class="fa-solid fa-headphones"></i>
-        </button>
+        </a>
       </div>
     </section>
     <script src="{{ url_for('static', filename='js/main.js') }}"></script>

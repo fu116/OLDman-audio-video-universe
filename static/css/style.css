@@ -7,13 +7,20 @@
       rgba(29, 15, 15, 0.95) 27%,
       rgba(42, 11, 11, 0.49) 55%
     );
-  --small_elements_bk: linear-gradient(
+  --button_bg: linear-gradient(
     180deg,
     #2a0b0b 0%,
     #320d0d 7%,
     #411111 20%,
     #310d0d 61%
   );
+
+  --button_bg-hover: linear-gradient(
+    rgba(228, 221, 221, 0.247),
+    rgba(22, 16, 15, 0.829)
+  );
+
+  --small_elements_bk: linear-gradient(180deg, #4c1313 23%, #b22d2d 100%);
 
   --brand-back: #1e1e1e;
   --card_gradient: linear-gradient(
@@ -122,9 +129,10 @@ i {
   color: var(--text);
   border: none;
   border-radius: 25px;
-  padding: 10px;
+  padding: 15px;
   cursor: pointer;
   font-weight: 600;
+  gap: 1rem;
 }
 
 .create_account:hover {
@@ -214,13 +222,7 @@ i {
   border: none;
   border-bottom-left-radius: 50px;
   border-top-right-radius: 50px;
-  background: linear-gradient(
-    180deg,
-    #2a0b0b 0%,
-    #320d0d 7%,
-    #411111 20%,
-    #310d0d 61%
-  );
+  background: var(--button_bg);
   padding: 6px 20px;
   margin: 20px;
   color: var(--text);
@@ -345,6 +347,7 @@ nav {
   .Login_account {
     padding: 25px;
     border-radius: 30px;
+    margin: 5px;
   }
 
   .nav-center {
@@ -572,7 +575,7 @@ input[type="password"]::placeholder {
 .Media_player_section {
   display: flex;
   flex-direction: column;
-  background-color: var(--brand-back);
+  background: #231414;
   min-height: 100vh;
   padding: 1rem;
   box-sizing: border-box;
@@ -1011,7 +1014,8 @@ body.search-mode .player video {
   grid-template-columns: repeat(2, 1fr);
   gap: 1rem;
   width: 100%;
-  margin-bottom: 1rem;
+  /* margin-bottom: 1rem; */
+  margin-top: 1.75rem;
   box-sizing: border-box;
   max-height: calc(100vh - 150px);
   overflow-y: auto;
@@ -1569,4 +1573,19 @@ body.search-mode .search_container {
 .card img:not([src]),
 .card img[src=""] {
   display: none;
+}
+
+.text {
+  color: var(--text);
+  font-size: var(--ff-primary);
+  padding: 0.25rem;
+  text-align: center;
+}
+
+/* Utility class for button-styled links */
+.btn-link {
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
 }

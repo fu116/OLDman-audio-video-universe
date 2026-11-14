@@ -1,0 +1,227 @@
+:root {
+  --main-bg-color: #231414;
+  --elements_bg-180: linear-gradient(180deg, #3C0F0F 0%, #3C0F0F 38%, #3C0F0F 38%, #902424 97%, #A22929 100%);
+  --elements_bg-90: linear-gradient(90deg, #3C0F0F 0%, #3C0F0F 38%, #3C0F0F 38%, #902424 97%, #A22929 100%);
+--button_bg: linear-gradient(
+    180deg,
+    #2a0b0b 0%,
+    #320d0d 7%,
+    #411111 20%,
+    #310d0d 61%
+  );
+
+
+--button_bg-hover: linear-gradient(
+    rgba(228, 221, 221, 0.247),
+    rgba(22, 16, 15, 0.829)
+  );
+
+ --profile_shadow: linear-gradient(180deg, #3C0F0F 0%, #3C0F0F 38%, #902424 97%, #A22929 100%);
+
+--box-shadow:0 10px 35px rgba(0, 0, 0, 0.6);
+  --card-bg: #221a1a;
+  --border-color: #382626;
+  --accent-color: #d32f2f;
+  --text-main: #ffffff;
+  --text-muted: #b0a0a0;
+}
+
+/* Base Body Styles */
+body {
+  background-color: var(--main-bg-color);
+  color: var(--text-main);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Responsive Main Container */
+.welcome-container {
+  width: 100%;
+  max-width: 800px;
+  background-color: var(--bg-color);
+  padding: 24px 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  box-sizing: border-box;
+  border-radius:2rem;
+  box-shadow: var(--box-shadow);
+}
+
+/* Laptop / Desktop View Adjustments */
+@media (min-width: 768px) {
+   .welcome-container {
+
+   min-width:1070px;
+
+/*   
+    box-shadow:var(--box-shadow); */
+    padding: 48px 40px;
+    border-radius:2rem;
+  } 
+}
+
+/* Logo styling */
+.logo-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 90px;
+  height: 90px;
+  background:var(--profile_shadow);
+  border-radius: 50%;
+  margin-bottom: 24px;
+  box-shadow:var(--box-shadow);
+}
+
+.logo {
+  width: 50px;
+  height: 50px;
+  object-fit: contain;
+}
+
+@media (min-width: 768px) {
+  .logo-wrapper{
+    width: 140px;
+  height: 140px;
+  }
+
+  .logo {
+  width: 100px;
+  height: 100px;
+  object-fit: contain;
+}
+}
+
+
+/* Titles and Typography */
+.welcome-container h1 {
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--text-main);
+  margin: 0 0 8px 0;
+}
+
+.welcome-container p {
+  font-size: 13px;
+  color: var(--text-muted);
+  margin: 0 0 28px 0;
+  line-height: 1.4;
+}
+
+
+@media (min-width: 768px){
+
+.welcome-container p {
+  font-size: 15px;
+}
+.welcome-container h1 {
+  font-size: 25px;
+  font-weight: 700;
+  
+}
+
+}
+
+/* Interests Grid Layout: Automatically wraps into columns on laptops */
+.interests-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  width: 100%;
+  justify-content: center;
+  max-width: 620px; /* Restricts the grid width so rows break just like Figma */
+  margin: 0 auto 30px auto;
+}
+
+/* Individual Interest Pill */
+.interest-pill {
+  position: relative;
+  /* Instead of stretching to fill width, let them size based on content/fit */
+  flex: 0 1 auto; 
+  min-width: 160px; /* Gives them a consistent minimum pill width */
+}
+
+/* Hide default checkbox */
+.interest-pill input[type="checkbox"] {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+    
+}
+
+.interest-pill label {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  padding: 14px 24px;
+  background: var(--elements_bg-90);
+  border: 1px solid var(--border-color);
+  border-radius: 30px;
+  color: var(--text-main);
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  box-sizing: border-box;
+  transition: all 0.2s ease;
+  border:none;
+}
+
+@media (min-width: 768px){
+.interest-pill label{
+  padding: 18px 20px;
+    border-radius: 40px;
+      font-size: 18px;
+  font-weight: 600;
+
+}
+}
+
+/* Hover State */
+.interest-pill label:hover {
+  border-color: var(--accent-color);
+  background: var(--button_bg-hover);
+}
+
+/* Checked State */
+.interest-pill input[type="checkbox"]:checked + label {
+  background-color: var(--accent-color);
+  border-color: var(--accent-color);
+  color: var(--text-main);
+  box-shadow: 0 4px 12px rgba(211, 47, 47, 0.3);
+}
+
+/* Save Interests Submit Button */
+.btn-primary {
+  width: 100%;
+  max-width: 320px;
+  padding: 14px;
+
+  border-radius:3rem;
+  background:var(--elements_bg-180);
+  color: var(--text-main);
+  border: none;
+  font-size: 20px;
+  font-weight: 400;
+  cursor: pointer;
+  transition: opacity 0.2s ease, transform 0.1s ease;
+  box-sizing: border-box;
+  margin: 0 auto;
+  display: block;
+}
+
+.btn-primary:hover {
+  opacity: 0.95;
+  transform: translateY(-3px);
+  background:var(--button_bg-hover);
+
+}

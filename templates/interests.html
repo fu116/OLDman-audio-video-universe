@@ -6,14 +6,14 @@
     <title>OLDman - Select Interests</title>
     <link
       rel="stylesheet"
-      href="{{ url_for('static', filename='css/style.css') }}"
+      href="{{ url_for('static', filename='css/interests.css') }}"
     />
   </head>
   <body>
     <div class="welcome-container" style="max-width: 440px">
       <div class="logo-wrapper">
         <img
-          src="{{ url_for('static', filename='images/OLDMAN_LOGO.svg') }}"
+          src="{{ url_for('static', filename='images/logo_without_bg.svg') }}"
           alt="OLDman Logo"
           class="logo"
         />
@@ -29,12 +29,18 @@
       messages %}
       <div class="flash-messages">
         {% for category, message in messages %}
-        <div class="flash {{ category }}">{{ message }}</div>
+        <div
+          class="flash {{ category }}"
+          style="color: {% if category == 'error' %}#ff4d4d{% else %}#4bb543{% endif %}; font-size: 14px; text-align: center; margin-bottom: 10px;"
+        >
+          {{ message }}
+        </div>
         {% endfor %}
       </div>
       {% endif %} {% endwith %}
 
-      <form action="{{ url_for('interests') }}" method="POST">
+      <!-- Fixed Blueprint route -->
+      <form action="{{ url_for('auth.interests') }}" method="POST">
         <div class="interests-grid">
           {% for item in interests %}
           <div class="interest-pill">
@@ -52,7 +58,12 @@
         <button
           type="submit"
           class="btn-primary"
-          style="width: 100%; padding: 12px; border-radius: 8px"
+          style="
+            width: 100%;
+            padding: 12px;
+            border-radius: 8px;
+            margin-top: 20px;
+          "
         >
           Save Interests
         </button>

@@ -10,18 +10,18 @@
 
     <!-- links -->
     <ul class="links">
-      <li>
-        <a href="index.html">Home</a>
-      </li>
-      <li>
-        <a href="explore.html">Feeds</a>
-      </li>
-      <li>
-        <a href="focus.html">Vibe</a>
-      </li>
-      <li>
-        <a href="kids.html">Kids</a>
-      </li>
+      <ul class="links">
+        <li>
+          <a href="{{ url_for('content.landing') }}">Home</a>
+        </li>
+        <li>
+          <a href="{{ url_for('content.feed') }}">Feeds</a>
+        </li>
+        <li>
+          <!-- If you have a kids route, link it here, or point it to your feed/another section -->
+          <a href="{{ url_for('content.feed') }}">Kids</a>
+        </li>
+      </ul>
     </ul>
     <ul class="social-icons">
       <li>

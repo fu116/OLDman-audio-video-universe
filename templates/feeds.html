@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>OLDman - Discover Feed</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/feeds.css') }}"
+    />
+  </head>
+  <body class="feeds-body">
+    <!-- Side Navbar -->
+    <nav class="side-navbar">
+      <div class="nav-header">
+        <h3>Media Hub</h3>
+        <button class="close-nav-btn" title="Close Menu">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+      <ul class="nav-links">
+        <li>
+          <a href="{{ url_for('content.feed') }}" class="active"
+            ><i class="fa-solid fa-house"></i> Discover Feed</a
+          >
+        </li>
+        <li>
+          <a href="{{ url_for('content.upload') }}"
+            ><i class="fa-solid fa-cloud-arrow-up"></i> Upload Media</a
+          >
+        </li>
+        <li>
+          <a href="{{ url_for('content.my_profile') }}"
+            ><i class="fa-solid fa-user"></i> Profile</a
+          >
+        </li>
+        <li><hr class="nav-divider" /></li>
+        {% if session.get('username') %}
+        <li>
+          <a href="{{ url_for('auth.logout') }}"
+            ><i class="fa-solid fa-right-from-bracket"></i> Logout</a
+          >
+        </li>
+        {% else %}
+        <li>
+          <a href="{{ url_for('auth.login') }}"
+            ><i class="fa-solid fa-right-to-bracket"></i> Login</a
+          >
+        </li>
+        {% endif %}
+      </ul>
+    </nav>
+
+    <div class="nav-overlay"></div>
+    <button class="menu-toggle-btn"><i class="fa-solid fa-bars"></i></button>
+
+    <!-- Main Feed Content Area -->
+    <main class="main-content">
+      <div class="feed-header">
+        <h2>Discover Community Content</h2>
+      </div>
+
+      <div class="feeds-video-grid">
+        {% if videos %} {% for item in videos %}
+        <div class="media-card">
+          <a href="{{ url_for('content.play_video', video_id=item.id) }}">
+            <div class="thumbnail-wrapper">
+              {% if item.thumbnail_url %}
+              <img
+                src="{{ url_for('static', filename='uploads/thumbnails/' ~ item.thumbnail_url) }}"
+                alt="{{ item.title }}"
+              />
+              {% else %}
+              <div class="default-thumb">
+                <i class="fa-solid fa-video"></i>
+              </div>
+              {% endif %}
+            </div>
+            <div class="card-info">
+              <h4>{{ item.title }}</h4>
+              <p class="card-author">
+                <a
+                  href="{{ url_for('content.user_profile', username=item.username) }}"
+                  >@{{ item.username }}</a
+                >
+              </p>
+            </div>
+          </a>
+        </div>
+        {% endfor %} {% else %}
+        <p class="no-content-msg">
+          No public videos available on the feed yet.
+        </p>
+        {% endif %}
+      </div>
+    </main>
+
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+  </body>
+</html>
